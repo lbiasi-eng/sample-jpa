@@ -1,0 +1,46 @@
+<server description="new server">
+
+	<!-- Enable features -->
+	<featureManager>
+		<feature>webProfile-7.0</feature>
+		<feature>localConnector-1.0</feature>
+		<feature>cdi-1.2</feature>
+		<feature>jpa-2.1</feature>
+		<feature>jsonp-1.0</feature>
+		<feature>servlet-3.1</feature>
+		<feature>jaxrs-2.0</feature>
+	</featureManager>
+
+	<logging traceSpecification="eclipselink.sql=all"
+		traceFileName="trace.log" maxFileSize="20" maxFiles="10" traceFormat="BASIC" />
+
+	<!-- To access this server from a remote client add a host attribute to 
+		the following element, e.g. host="*" -->
+	<httpEndpoint httpPort="9080" httpsPort="443"
+		id="defaultHttpEndpoint" />
+
+	<!-- Automatically expand WAR files and EAR files -->
+	<applicationManager autoExpand="true" />
+
+	<!-- Derby Library Configuration -->
+	<library id="db2Lib">
+		<fileset dir="${shared.config.dir}/lib/db2" includes="db2*.jar" />
+	</library>
+
+	<!-- Datasource Configuration -->
+	<dataSource id="certmgr" isolationLevel="TRANSACTION_READ_COMMITTED"
+		jndiName="java/certmgr">
+		<jdbcDriver libraryRef="db2Lib" />
+		<properties.db2.jcc databaseName="{{DBNAME}}"
+			password="{{DBPASS}}" portNumber="{{DBPORT}}" serverName="{{DBADDRESS}}"
+			sslConnection="false" user="{{DBUSER}}" />
+	</dataSource>
+
+	<keyStore id="defaultKeyStore" password="Liberty" />
+
+
+	<enterpriseApplication id="certmgr-db2" location="certmgr-db2.ear"
+		name="certmgr-db2" />
+
+	<applicationMonitor updateTrigger="mbean" />
+</server>
