@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="3.1"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+
+	<display-name>RestApplications</display-name>
+
+	<servlet>
+		<servlet-name>JAXRS</servlet-name>
+		<servlet-class>com.ibm.websphere.jaxrs.server.IBMRestServlet</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>RestApplication</param-value>
+		</init-param>
+		<load-on-startup>99</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>JAXRS</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<resource-ref id="DataSource_Transactional_ResourceRef">
+		<res-ref-name>jdbc/certmgr</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		<res-sharing-scope>Shareable</res-sharing-scope>
+	</resource-ref>
+
+	<persistence-context-ref>
+		<persistence-context-ref-name>jpasample/entitymanager</persistence-context-ref-name>
+		<persistence-unit-name>jpa-unit</persistence-unit-name>
+	</persistence-context-ref>
+</web-app>
